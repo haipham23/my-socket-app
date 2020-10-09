@@ -1,4 +1,8 @@
-import { EVENT_SUBSCRIBED, EVENT_RECEIVED } from '../constants';
+import {
+  EVENT_SUBSCRIBED,
+  EVENT_RECEIVED,
+  SOCKET_CLOSED,
+} from '../constants';
 
 export const socketMessage = ({ data: rawData }) => (dispatch) => {
   const data = JSON.parse(rawData);
@@ -27,3 +31,7 @@ export const socketMessage = ({ data: rawData }) => (dispatch) => {
 
   return console.info('unexpected event: ', data);
 };
+
+export const socketClose = () => (dispatch) => dispatch({
+  type: SOCKET_CLOSED,
+});

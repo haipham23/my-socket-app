@@ -23,9 +23,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
   },
-  button: {
-    backgroundColor: '#feb2b2',
-    padding: 6,
+  buttonWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

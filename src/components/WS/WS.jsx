@@ -4,15 +4,11 @@ import PropTypes from 'prop-types';
 class WS extends Component {
   state = {
     ws: null,
-  };
-
-  static defaultProps = {
-    retry: false,
+    isDisconnected: false,
   };
 
   static propTypes = {
     url: PropTypes.string.isRequired,
-    retry: PropTypes.bool,
     onOpen: PropTypes.func,
     onMessage: PropTypes.func,
     onError: PropTypes.func,
@@ -28,24 +24,29 @@ class WS extends Component {
 
     ws.onmessage = (event) => { this.props.onMessage && this.props.onMessage(event); }
     ws.onerror = (error) => { this.props.onError && this.props.onError(error); }
-    ws.onclose = () => this.props.retry ? this._handleWebSocketSetup() : (this.props.onClose && this.props.onClose())
+    ws.onclose = () => this.state.isDisconnected
+      ? (this.props.onClose && this.props.onClose())
+      : this._handleWebSocketSetup();
 
     this.setState({ ws });
   };
 
   send = (data) => this.state.ws.send(data);
 
-  disconnect = () => this.state.ws.close();
+  disconnect = () => {
+    this.setState({ isDisconnected: true }, () => this.state.ws.close());
+  };
 
-  reconnect = () => this._handleWebSocketSetup();
+  reconnect = () => {
+    this.setState({ isDisconnected: false }, this._handleWebSocketSetup);
+  };
 
   componentDidMount() {
     this._handleWebSocketSetup();
   };
 
   componentWillUnmount() {
-    this.reconnect = false
-    this.state.ws.close()
+    this.state.ws.close();
   };
 
   render () {
