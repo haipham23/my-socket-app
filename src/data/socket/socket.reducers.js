@@ -38,23 +38,23 @@ const socketReducer = (state = {}, { type, payload }) => {
         };
       }
 
-      if (channel === BOOK_CHANNEL) {
-        return {
-          ...state,
-          [channel]: {
-            ...state[channel],
-            records: addItemToTop(
-              (state[channel] || {}).records,
-              payload.records,
-              RECORDS_TOTAL,
-            ),
-          },
-        };
-      }
+      if (channel === BOOK_CHANNEL || channel === TRADES_CHANNEL) {
+        // snapshot
+        if (Array.isArray(payload.records[0])) {
+          return {
+            ...state,
+            [channel]: {
+              ...state[channel],
+              records: addItemToTop(
+                (state[channel] || {}).records,
+                payload.records[0],
+                RECORDS_TOTAL,
+              ),
+            },
+          };
+        }
 
-      // this is treated slightly different than BOOK_CHANNEL
-      // records can be an array of arrays instead of an array of string
-      if (channel === TRADES_CHANNEL && !Array.isArray(payload.records[0])) {
+        // update
         return {
           ...state,
           [channel]: {
