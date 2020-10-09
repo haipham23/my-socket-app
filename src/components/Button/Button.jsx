@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text } from 'react-native';
 
@@ -15,4 +15,4 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default Button;
+export default memo(Button);
