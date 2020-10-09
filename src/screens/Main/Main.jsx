@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
 
 import styles from './Main.styled';
 import WS from '../../components/WS';
@@ -9,6 +9,7 @@ import Ticker from '../../components/Ticker';
 import Button from '../../components/Button';
 
 import {
+  apiSymbol,
   bookEvent,
   tradesEvent,
   tickerEvent,
@@ -16,12 +17,17 @@ import {
 
 const BITFINEX_WSS = 'wss://api-pub.bitfinex.com/ws/2';
 
-const ButtonContainer = ({ onReconnect, onDisconnect }) => (
+const ButtonContainer = ({ onReconnect, onDisconnect, isDisconnected }) => (
   <View style={styles.buttonWrapper}>
     <Button
       onPress={onReconnect}
       text="Reconnect"
     />
+    {
+      isDisconnected
+        ? <Text style={styles.text}>OFF</Text>
+        : <Text style={styles.text}>ON</Text>
+    }
     <Button
       onPress={onDisconnect}
       text="Disconnect"
@@ -37,11 +43,23 @@ const Main = ({
   socketMessage,
   socketClose,
 }) => {
+  const [isDisconnected, setIsDisconnected] = useState(false);
+
   let ws;
 
-  const onReconnect = () => ws && ws.reconnect();
+  const onReconnect = () => {
+    if (ws) {
+      ws.reconnect();
+      setIsDisconnected(false);
+    }
+  };
 
-  const onDisconnect = () => ws && ws.disconnect();
+  const onDisconnect = () => {
+    if (ws) {
+      ws.disconnect();
+      setIsDisconnected(true);
+    }
+  };
 
   const onOpen = () => {
     if (ws && ws.send) {
@@ -56,15 +74,16 @@ const Main = ({
       <ButtonContainer
         onReconnect={onReconnect}
         onDisconnect={onDisconnect}
+        isDisconnected={isDisconnected}
       />
 
-      <Books apiSymbol="BTC/USD" records={book.records} />
+      <Books apiSymbol={apiSymbol} records={book.records} />
       <View style={styles.separator} />
 
       <Trades records={trades.records} />
       <View style={styles.separator} />
 
-      <Ticker apiSymbol="BTC/USD" records={ticker.records} />
+      <Ticker apiSymbol={apiSymbol} records={ticker.records} />
       <View style={styles.separator}  />
 
       <WS

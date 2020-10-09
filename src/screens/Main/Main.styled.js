@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  text: {
+    color: '#000',
+  },
 });
 
 export default styles;
