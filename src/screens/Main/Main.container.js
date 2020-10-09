@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 
 import Main from './Main';
 import { socketMessage } from '../../data/socket/socket.actions';
-import { getBook, getTrade, getTicker } from '../../data/socket/socket.selectors';
+import { getBooks, getTrades, getTicker } from '../../data/socket/socket.selectors';
 
 const mapStateToProps = (state) => ({
-  book: getBook(state),
-  trade: getTrade(state),
+  books: getBooks(state),
+  trades: getTrades(state),
   ticker: getTicker(state),
 });
 

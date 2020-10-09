@@ -2,7 +2,10 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import styles from './Main.styled';
-import WS from '../../components/WS/WS';
+import WS from '../../components/WS';
+import Books from '../../components/Books';
+import Trades from '../../components/Trades';
+import Ticker from '../../components/Ticker';
 
 import {
   bookEvent,
@@ -10,36 +13,18 @@ import {
   tickerEvent,
 } from './events';
 
-const Main = ({ book, trade, ticker, socketMessage }) => {
+const Main = ({ books, trades, ticker, socketMessage }) => {
   let ws;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Book</Text>
-      <View style={styles.counter}>
-        <Text>
-          {JSON.stringify(book)}
-        </Text>
-      </View>
-
+      <Books records={books.records} />
       <View style={styles.separator} />
 
-      <Text style={styles.title}>Trade</Text>
-      <View style={styles.counter}>
-        <Text>
-          {JSON.stringify(trade)}
-        </Text>
-      </View>
-
+      <Trades records={trades.records} />
       <View style={styles.separator} />
 
-      <Text style={styles.title}>Ticker</Text>
-      <View style={styles.counter} >
-        <Text>
-          {JSON.stringify(ticker)}
-        </Text>
-      </View>
-
+      <Ticker records={ticker.records} />
       <View style={styles.separator}  />
 
       <WS
@@ -57,6 +42,12 @@ const Main = ({ book, trade, ticker, socketMessage }) => {
       />
     </View>
   );
+};
+
+Main.defaultProps = {
+  books: {},
+  trades: {},
+  ticker: {},
 };
 
 export default Main;
