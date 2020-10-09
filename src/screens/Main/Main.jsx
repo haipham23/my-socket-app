@@ -55,7 +55,7 @@ const Main = ({
       <Trades records={trades.records} />
       <View style={styles.separator} />
 
-      <Ticker records={ticker.records} />
+      <Ticker apiSymbol="BTC/USD" records={ticker.records} />
       <View style={styles.separator}  />
 
       <WS
@@ -64,7 +64,7 @@ const Main = ({
         onOpen={() => {
           // ws.send(bookEvent);
           // ws.send(tradesEvent);
-          ws.send(tickerEvent);
+          ws && ws.send(tickerEvent);
         }}
         onMessage={socketMessage}
         onError={console.log}

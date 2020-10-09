@@ -6,14 +6,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   separator: {
-    marginVertical: 30,
+    marginVertical: 5,
     height: 1,
-    width: '80%',
+    width: '100%',
   },
   counter: {
     alignItems: 'center',
@@ -25,6 +21,7 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 1,
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
