@@ -4,6 +4,7 @@ import {
   TICKER_CHANNEL,
   BOOK_RECORDS_TOTAL,
   BOOK_CHANNEL,
+  TRADES_CHANNEL,
 } from '../constants';
 
 
@@ -37,7 +38,7 @@ const socketReducer = (state = {}, { type, payload }) => {
         };
       }
 
-      if (channel === BOOK_CHANNEL) {
+      if (channel === BOOK_CHANNEL || channel === TRADES_CHANNEL) {
         return {
           ...state,
           [channel]: {

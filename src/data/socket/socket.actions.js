@@ -17,19 +17,28 @@ export const socketMessage = ({ data: rawData }) => (dispatch) => {
     });
   }
 
-  if (Array.isArray(data) && Array.isArray(data[1])) {
-    const [chanId, records] = data;
+  if (Array.isArray(data)) {
+    const [chanId, secondItem, thirdItem] = data;
 
-    return dispatch({
-      type: EVENT_RECEIVED,
-      payload: {
-        chanId,
-        records,
-      }
-    });
+    // records can be found in second or third item in the array
+    const records = Array.isArray(secondItem)
+      ? secondItem
+      : Array.isArray(thirdItem)
+        ? thirdItem
+        : null;
+
+    if (records) {
+      return dispatch({
+        type: EVENT_RECEIVED,
+        payload: {
+          chanId,
+          records,
+        }
+      });
+    }
   }
 
-  return console.info('unexpected event: ', data);
+  return console.info('non-treated event: ', data);
 };
 
 export const socketClose = () => (dispatch) => dispatch({
