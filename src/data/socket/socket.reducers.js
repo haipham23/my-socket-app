@@ -53,9 +53,8 @@ const socketReducer = (state = {}, { type, payload }) => {
       }
 
       // this is treated slightly different than BOOK_CHANNEL
-      // sometimes records can be an array of arrays instead of an array of string
+      // records can be an array of arrays instead of an array of string
       if (channel === TRADES_CHANNEL && !Array.isArray(payload.records[0])) {
-        console.log(14141414, payload);
         return {
           ...state,
           [channel]: {
