@@ -22,6 +22,7 @@ const ButtonContainer = ({ onReconnect, onDisconnect, isDisconnected }) => (
     <Button
       onPress={onReconnect}
       text="Reconnect"
+      disabled={!isDisconnected}
     />
     {
       isDisconnected
@@ -31,6 +32,7 @@ const ButtonContainer = ({ onReconnect, onDisconnect, isDisconnected }) => (
     <Button
       onPress={onDisconnect}
       text="Disconnect"
+      disabled={isDisconnected}
     />
   </View>
 );
