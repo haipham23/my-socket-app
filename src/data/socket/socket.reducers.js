@@ -1,9 +1,17 @@
-import { EVENT_SUBSCRIBED, EVENT_RECEIVED } from '../constants';
+import {
+  EVENT_SUBSCRIBED,
+  EVENT_RECEIVED,
+  TICKER_CHANNEL,
+  BOOK_RECORDS_TOTAL,
+  BOOK_CHANNEL,
+} from '../constants';
 
-const findNameById = (state, id) => {
-  const { channel } = Object.values(state).find(({ chanId }) => chanId === id) || {};
-  return channel;
-};
+
+import {
+  findChanNameById,
+  addItemToTop,
+} from './socket.utils';
+
 
 const socketReducer = (state = {}, { type, payload }) => {
   switch (type) {
@@ -12,18 +20,33 @@ const socketReducer = (state = {}, { type, payload }) => {
         ...state,
         [payload.channel]: {
           ...payload,
+          records: [],
         },
       };
 
     case EVENT_RECEIVED:
-      const channel = findNameById(state, payload.chanId);
+      const channel = findChanNameById(state, payload.chanId);
 
-      if (channel) {
+      if (channel === TICKER_CHANNEL) {
         return {
           ...state,
           [channel]: {
             ...state[channel],
             records: payload.records,
+          },
+        };
+      }
+
+      if (channel === BOOK_CHANNEL) {
+        return {
+          ...state,
+          [channel]: {
+            ...state[channel],
+            records: addItemToTop(
+              (state[channel] || {}).records,
+              payload.records,
+              BOOK_RECORDS_TOTAL,
+            ),
           },
         };
       }
