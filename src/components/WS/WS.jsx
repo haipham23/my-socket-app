@@ -49,17 +49,20 @@ class WS extends Component {
 
   componentDidMount() {
     this._handleWebSocketSetup();
-    timer.setInterval(
-      this,
-      SYNC_NAME,
-      this.props.syncEvent,
-      SYNC_TIME,
-    );
+
+    if (!timer.intervalExists(this, SYNC_NAME)) {
+      timer.setInterval(
+        this,
+        SYNC_NAME,
+        this.props.syncEvent,
+        SYNC_TIME,
+      );
+    }
   };
 
   componentWillUnmount() {
     this.state.ws.close();
-    timer.clearTimeout(this, SYNC_NAME);
+    timer.clearInterval(this, SYNC_NAME);
   };
 
   render () {
