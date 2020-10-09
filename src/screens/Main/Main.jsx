@@ -4,23 +4,11 @@ import { Text, View } from 'react-native';
 import styles from './Main.styled';
 import WS from '../../components/WS/WS';
 
-const tickerStr = JSON.stringify({
-  event: 'subscribe',
-  channel: 'ticker',
-  symbol: 'tBTCUSD',
-});
-
-const tradeStr = JSON.stringify({
-  event: 'subscribe',
-  channel: 'trades',
-  symbol: 'tBTCUSD'
-});
-
-const bookStr = JSON.stringify({
-  event: 'subscribe',
-  channel: 'book',
-  symbol: 'tBTCUSD'
-});
+import {
+  bookEvent,
+  tradesEvent,
+  tickerEvent,
+} from './events';
 
 const Main = ({ book, trade, ticker, socketMessage }) => {
   let ws;
@@ -58,9 +46,9 @@ const Main = ({ book, trade, ticker, socketMessage }) => {
         ref={ref => { ws = ref }}
         url="wss://api-pub.bitfinex.com/ws/2"
         onOpen={() => {
-          // ws.send(bookStr);
-          ws.send(tradeStr);
-          ws.send(tickerStr);
+          // ws.send(bookEvent);
+          ws.send(tradesEvent);
+          ws.send(tickerEvent);
         }}
         onMessage={socketMessage}
         onError={console.log}
