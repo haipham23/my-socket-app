@@ -5,6 +5,7 @@ import {
   RECORDS_TOTAL,
   BOOK_CHANNEL,
   TRADES_CHANNEL,
+  EVENT_SYNC,
 } from '../constants';
 
 
@@ -16,22 +17,28 @@ import {
 
 const socketReducer = (state = {}, { type, payload }) => {
   switch (type) {
-    case EVENT_SUBSCRIBED:
+    case EVENT_SUBSCRIBED: {
+      const { chanId, channel } = payload;
+
       return {
         ...state,
-        [payload.channel]: {
-          ...payload,
-          records: [],
+        [channel]: {
+          chanId,
+          channel,
+          // for not removing records afer reconnection
+          records: (state[channel] || { records: [] }).records,
         },
       };
+    }
 
-    case EVENT_RECEIVED:
+
+    case EVENT_RECEIVED: {
       const channel = findChanNameById(state, payload.chanId);
 
       if (channel === TICKER_CHANNEL) {
         return {
           ...state,
-          [channel]: {
+          [`${channel}Store`]: {
             ...state[channel],
             records: payload.records,
           },
@@ -43,7 +50,7 @@ const socketReducer = (state = {}, { type, payload }) => {
         if (Array.isArray(payload.records[0])) {
           return {
             ...state,
-            [channel]: {
+            [`${channel}Store`]: {
               ...state[channel],
               records: addItemToTop(
                 (state[channel] || {}).records,
@@ -57,7 +64,7 @@ const socketReducer = (state = {}, { type, payload }) => {
         // update
         return {
           ...state,
-          [channel]: {
+          [`${channel}Store`]: {
             ...state[channel],
             records: addItemToTop(
               (state[channel] || {}).records,
@@ -67,6 +74,24 @@ const socketReducer = (state = {}, { type, payload }) => {
           },
         };
       }
+    }
+
+
+    case EVENT_SYNC: {
+      return {
+        ...state,
+        [TICKER_CHANNEL]: {
+          ...state[`${TICKER_CHANNEL}Store`],
+        },
+        [BOOK_CHANNEL]: {
+          ...state[`${BOOK_CHANNEL}Store`],
+        },
+        [TRADES_CHANNEL]: {
+          ...state[`${TRADES_CHANNEL}Store`],
+        },
+      };
+    }
+
 
     default:
       return state;

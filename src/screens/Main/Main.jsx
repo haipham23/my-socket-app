@@ -42,6 +42,7 @@ const Main = ({
   ticker,
   socketMessage,
   socketClose,
+  syncEvent,
 }) => {
   const [isDisconnected, setIsDisconnected] = useState(false);
 
@@ -93,6 +94,7 @@ const Main = ({
         onMessage={socketMessage}
         onError={console.log}
         onClose={socketClose}
+        syncEvent={syncEvent}
       />
     </View>
   );

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Main from './Main';
-import { socketMessage, socketClose } from '../../data/socket/socket.actions';
+import { socketMessage, socketClose, syncEvent } from '../../data/socket/socket.actions';
 import { getBook, getTrades, getTicker } from '../../data/socket/socket.selectors';
 
 const mapStateToProps = (state) => ({
@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   socketMessage,
   socketClose,
+  syncEvent,
 };
 
 export default connect(

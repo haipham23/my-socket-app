@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import timer from 'react-native-timer';
+
+// @NOTE: interval to update main store from temporary store
+const SYNC_TIME = 1000;
+const SYNC_NAME = 'syncStore';
 
 class WS extends Component {
   state = {
@@ -9,10 +14,11 @@ class WS extends Component {
 
   static propTypes = {
     url: PropTypes.string.isRequired,
-    onOpen: PropTypes.func,
-    onMessage: PropTypes.func,
+    onOpen: PropTypes.func.isRequired,
+    onMessage: PropTypes.func.isRequired,
     onError: PropTypes.func,
     onClose: PropTypes.func,
+    syncEvent: PropTypes.func.isRequired,
   };
 
   _handleWebSocketSetup = () => {
@@ -43,10 +49,17 @@ class WS extends Component {
 
   componentDidMount() {
     this._handleWebSocketSetup();
+    timer.setInterval(
+      this,
+      SYNC_NAME,
+      this.props.syncEvent,
+      SYNC_TIME,
+    );
   };
 
   componentWillUnmount() {
     this.state.ws.close();
+    timer.clearTimeout(this, SYNC_NAME);
   };
 
   render () {

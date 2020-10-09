@@ -1,6 +1,7 @@
 export const EVENT_SUBSCRIBED = 'EVENT_SUBSCRIBED';
 export const EVENT_RECEIVED = 'EVENT_RECEIVED';
 export const SOCKET_CLOSED = 'SOCKET_CLOSED';
+export const EVENT_SYNC = 'EVENT_SYNC';
 
 export const RECORDS_TOTAL = 30;
 

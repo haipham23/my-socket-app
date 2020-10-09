@@ -2,6 +2,7 @@ import {
   EVENT_SUBSCRIBED,
   EVENT_RECEIVED,
   SOCKET_CLOSED,
+  EVENT_SYNC,
 } from '../constants';
 
 export const socketMessage = ({ data: rawData }) => (dispatch) => {
@@ -43,4 +44,8 @@ export const socketMessage = ({ data: rawData }) => (dispatch) => {
 
 export const socketClose = () => (dispatch) => dispatch({
   type: SOCKET_CLOSED,
+});
+
+export const syncEvent = () => (dispatch) => dispatch({
+  type: EVENT_SYNC,
 });
