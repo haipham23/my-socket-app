@@ -5,8 +5,8 @@ import styles from './Books.styled';
 import formatNumber from '../../utils/formatNumber';
 
 
-const BookItem = ({ item }) => {
-  const [PRICE, COUNT, AMOUNT] = item;
+const BookItem = ({ item: { items } }) => {
+  const [PRICE, COUNT, AMOUNT] = items;
   const price = formatNumber(PRICE, '0,0.0');
   const count = formatNumber(COUNT, '0');
   const amount = formatNumber(AMOUNT, '0.000');
@@ -47,12 +47,15 @@ const Books = ({ records, apiSymbol }) => {
     return null;
   }
 
+  const _keyExtractor = item => item.id;
+
   return (
     <View style={styles.container}>
       <FlatList
         data={records}
         renderItem={BookItem}
         ListHeaderComponent={BookHeader}
+        keyExtractor={_keyExtractor}
       />
     </View>
   );

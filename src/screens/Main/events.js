@@ -1,3 +1,5 @@
+export const apiSymbol = 'BTC/USD';
+
 export const bookEvent = JSON.stringify({
   event: 'subscribe',
   channel: 'book',
