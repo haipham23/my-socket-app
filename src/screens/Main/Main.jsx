@@ -31,7 +31,7 @@ const ButtonContainer = ({ onReconnect, onDisconnect }) => (
 
 
 const Main = ({
-  books,
+  book,
   trades,
   ticker,
   socketMessage,
@@ -45,7 +45,7 @@ const Main = ({
 
   const onOpen = () => {
     if (ws && ws.send) {
-      // ws.send(bookEvent);
+      ws.send(bookEvent);
       // ws.send(tradesEvent);
       ws.send(tickerEvent);
     }
@@ -58,7 +58,7 @@ const Main = ({
         onDisconnect={onDisconnect}
       />
 
-      <Books records={books.records} />
+      <Books apiSymbol="BTC/USD" records={book.records} />
       <View style={styles.separator} />
 
       <Trades records={trades.records} />

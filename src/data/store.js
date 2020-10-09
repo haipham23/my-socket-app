@@ -9,7 +9,7 @@ const enhancers = [];
 const middleware = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
-  middleware.push(logger);
+  // middleware.push(logger);
 
   // eslint-disable-next-line
   const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
