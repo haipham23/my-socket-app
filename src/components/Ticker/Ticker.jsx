@@ -5,6 +5,10 @@ import styles from './Ticker.styled';
 import formatNumber from '../../utils/formatNumber';
 
 const Ticker = ({ records, apiSymbol }) => {
+  if (!records || !apiSymbol) {
+    return null;
+  }
+
   const [
     BID,
     // BID_SIZE,

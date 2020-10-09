@@ -14,6 +14,7 @@ import {
   tickerEvent,
 } from './events';
 
+const BITFINEX_WSS = 'wss://api-pub.bitfinex.com/ws/2';
 
 const ButtonContainer = ({ onReconnect, onDisconnect }) => (
   <View style={styles.buttonWrapper}>
@@ -42,6 +43,14 @@ const Main = ({
 
   const onDisconnect = () => ws && ws.disconnect();
 
+  const onOpen = () => {
+    if (ws && ws.send) {
+      // ws.send(bookEvent);
+      // ws.send(tradesEvent);
+      ws.send(tickerEvent);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ButtonContainer
@@ -60,12 +69,8 @@ const Main = ({
 
       <WS
         ref={ref => { ws = ref }}
-        url="wss://api-pub.bitfinex.com/ws/2"
-        onOpen={() => {
-          // ws.send(bookEvent);
-          // ws.send(tradesEvent);
-          ws && ws.send(tickerEvent);
-        }}
+        url={BITFINEX_WSS}
+        onOpen={onOpen}
         onMessage={socketMessage}
         onError={console.log}
         onClose={socketClose}
