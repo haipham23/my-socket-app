@@ -64,7 +64,7 @@ const Main = ({
   const onOpen = () => {
     if (ws && ws.send) {
       ws.send(bookEvent);
-      // ws.send(tradesEvent);
+      ws.send(tradesEvent);
       ws.send(tickerEvent);
     }
   };
@@ -80,7 +80,7 @@ const Main = ({
       <Books apiSymbol={apiSymbol} records={book.records} />
       <View style={styles.separator} />
 
-      <Trades records={trades.records} />
+      <Trades apiSymbol={apiSymbol} records={trades.records} />
       <View style={styles.separator} />
 
       <Ticker apiSymbol={apiSymbol} records={ticker.records} />

@@ -2,7 +2,7 @@ import {
   EVENT_SUBSCRIBED,
   EVENT_RECEIVED,
   TICKER_CHANNEL,
-  BOOK_RECORDS_TOTAL,
+  RECORDS_TOTAL,
   BOOK_CHANNEL,
   TRADES_CHANNEL,
 } from '../constants';
@@ -46,7 +46,7 @@ const socketReducer = (state = {}, { type, payload }) => {
             records: addItemToTop(
               (state[channel] || {}).records,
               payload.records,
-              BOOK_RECORDS_TOTAL,
+              RECORDS_TOTAL,
             ),
           },
         };
